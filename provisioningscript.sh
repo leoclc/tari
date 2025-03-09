@@ -1,11 +1,12 @@
 wget -O com.tari.universe.zip $TARI_FOLDER_ZIPPED_DRIVE_LINK
-#sudo unzip com.tari.universe.zip
-#mv com.tari.universe ~/.local/share/
+sudo unzip com.tari.universe.zip
+sudo mkdir -p ~/.local/share/
+mv com.tari.universe ~/.local/share/
 wget -O Tari.AppImage $TARIAPPIMAGE_DRIVE_LINK
-#chmod +x Tari.AppImage
+chmod +x Tari.AppImage
 
 # Define the file path
-#FILE_PATH="/opt/ai-dock/bin/checktarirunning.sh"
+FILE_PATH="/opt/ai-dock/bin/checktarirunning.sh"
 
 # Write content to the file
 cat << 'EOF' > "$FILE_PATH"
