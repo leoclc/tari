@@ -1,7 +1,7 @@
 wget -O com.tari.universe.zip $TARI_FOLDER_ZIPPED_DRIVE_LINK
 sudo unzip com.tari.universe.zip
 sudo mkdir -p ~/.local/share/
-sudo mv /home/user/com.tari.universe.zip ~/.local/share/
+sudo mv /home/user/com.tari.universe ~/.local/share/
 wget -O Tari.AppImage $TARIAPPIMAGE_DRIVE_LINK
 chmod +x Tari.AppImage
 
