@@ -1,13 +1,9 @@
 #!/bin/bash
-pip install gdown
-/home/user/.local/bin/gdown --fuzzy $TARI_FOLDER_ZIPPED_DRIVE_LINK
+wget -o com.tari.universe.zip $TARI_FOLDER_ZIPPED_DRIVE_LINK
 sudo unzip com.tari.universe.zip
-mkdir -p ~/.local/share/
 mv com.tari.universe ~/.local/share/
-/home/user/.local/bin/gdown --fuzzy $TARIAPPIMAGE_DRIVE_LINK
-# Find the most recently modified file in the current directory
-FILE=$(ls -t | head -n 1)
-chmod +x "$FILE"
+wget -o Tari.AppImage $TARIAPPIMAGE_DRIVE_LINK
+chmod +x Tari.AppImage
 
 # Define the file path
 FILE_PATH="/opt/ai-dock/bin/checktarirunning.sh"
