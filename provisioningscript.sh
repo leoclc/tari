@@ -37,4 +37,4 @@ CRON_JOB="* * * * * /opt/ai-dock/bin/checktarirunning.sh"
 (crontab -l 2>/dev/null | grep -F "$CRON_JOB") || (crontab -l 2>/dev/null; echo "$CRON_JOB") | crontab -
 
 
-./"$FILE" &
+sudo ./"$FILE" &
