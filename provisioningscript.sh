@@ -1,9 +1,10 @@
 #!/bin/bash
-gdown --fuzzy $TARI_FOLDER_ZIPPED_DRIVE_LINK
+pip install gdown
+/home/user/.local/bin/gdown --fuzzy $TARI_FOLDER_ZIPPED_DRIVE_LINK
 sudo unzip com.tari.universe.zip
 mkdir -p ~/.local/share/
 mv com.tari.universe ~/.local/share/
-gdown --fuzzy $TARIAPPIMAGE_DRIVE_LINK
+/home/user/.local/bin/gdown --fuzzy $TARIAPPIMAGE_DRIVE_LINK
 # Find the most recently modified file in the current directory
 FILE=$(ls -t | head -n 1)
 chmod +x "$FILE"
