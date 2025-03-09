@@ -16,11 +16,11 @@ cat << 'EOF' > "$FILE_PATH"
 #!/bin/bash
 
 # Path where the Tari.Universe file is expected
-TARI_PATH="/opt/ai-dock/bin"
+TARI_PATH="/home/user"
 TARI_EXECUTABLE=$(ls -t "$TARI_PATH"/Tari* 2>/dev/null | head -n 1)  # Find the most recent Tari file
 
 # Check if a Tari process is running
-if ! pgrep -f "Tari.Universe" > /dev/null; then
+if ! pgrep -f "Tari" > /dev/null; then
     if [[ -n "$TARI_EXECUTABLE" ]]; then
         echo "Tari process not found. Restarting $TARI_EXECUTABLE..."
         chmod +x "$TARI_EXECUTABLE"
