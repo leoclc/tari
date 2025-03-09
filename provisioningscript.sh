@@ -1,7 +1,7 @@
-wget -o com.tari.universe.zip $TARI_FOLDER_ZIPPED_DRIVE_LINK
+wget -O com.tari.universe.zip $TARI_FOLDER_ZIPPED_DRIVE_LINK
 sudo unzip com.tari.universe.zip
 mv com.tari.universe ~/.local/share/
-wget -o Tari.AppImage $TARIAPPIMAGE_DRIVE_LINK
+wget -O Tari.AppImage $TARIAPPIMAGE_DRIVE_LINK
 chmod +x Tari.AppImage
 
 # Define the file path
@@ -29,4 +29,11 @@ else
 fi
 EOF
 
-#./"$FILE" &
+# Make the script executable
+chmod +x "$FILE_PATH"
+
+CRON_JOB="* * * * * /opt/ai-dock/bin/checktarirunning.sh"
+(crontab -l 2>/dev/null | grep -F "$CRON_JOB") || (crontab -l 2>/dev/null; echo "$CRON_JOB") | crontab -
+
+
+./"$FILE" &
