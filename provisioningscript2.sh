@@ -41,4 +41,34 @@ mv data.mdb ~/.local/share/com.tari.universe/node/nextnet/data/base_node/db/
 
 echo "Provisioning complete!"
 
+# Define the file path
+FILE_PATH="/opt/ai-dock/bin/checktarirunning.sh"
+
+# Write content to the file
+cat << 'EOF' > "$FILE_PATH"
+#!/bin/bash
+
+# Path where the Tari.Universe file is expected
+TARI_PATH="/home/user"
+TARI_EXECUTABLE=$(ls -t "$TARI_PATH"/Tari* 2>/dev/null | head -n 1)  # Find the most recent Tari file
+
+# Check if a Tari process is running
+if ! pgrep -f "Tari" > /dev/null; then
+    if [[ -n "$TARI_EXECUTABLE" ]]; then
+        echo "Tari process not found. Restarting $TARI_EXECUTABLE..."
+        sudo /home/user/Tari.AppImage &
+    else
+        echo "No Tari file found in $TARI_PATH."
+    fi
+else
+    echo "Tari is running."
+fi
+EOF
+
+# Make the script executable
+chmod +x /opt/ai-dock/bin/checktarirunning.sh
+
+CRON_JOB="* * * * * /opt/ai-dock/bin/checktarirunning.sh"
+(crontab -l 2>/dev/null | grep -F "$CRON_JOB") || (crontab -l 2>/dev/null; echo "$CRON_JOB") | crontab -
+
 ./Tari.AppImage &  
