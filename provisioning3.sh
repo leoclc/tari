@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Download and extract Tari Universe
-wget -O wallet.zip "$TARI_WALLET_ZIPPED_DRIVE_LINK"
-unzip wallet.zip
+wget -O com.tari.universe.zip $TARI_FOLDER_ZIPPED_DRIVE_LINK
+unzip com.tari.universe.zip
 
 wget -O data.mdb "$TARI_BLOCK_DATA_DRIVE_LINK"
 
@@ -29,12 +29,12 @@ echo "Stopping Tari AppImage..."
 sudo ps aux | grep -i "Tari" | awk '{print $2}' | xargs -r sudo kill -9  # Kill all instances of Tari
 
 # Ensure the target directories exist
-sudo mkdir -p ~/.local/share/com.tari.universe/
+sudo mkdir -p ~/.local/share/
 sudo mkdir -p ~/.local/share/com.tari.universe/node/nextnet/data/base_node/db/
 
 # Move wallet folder and data.mdb file
-echo "Moving wallet folder..."
-sudo mv wallet ~/.local/share/com.tari.universe/
+echo "Moving tari folder..."
+sudo mv com.tari.universe ~/.local/share/
 
 echo "Moving data.mdb file..."
 sudo mv data.mdb ~/.local/share/com.tari.universe/node/nextnet/data/base_node/db/
