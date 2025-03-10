@@ -44,6 +44,8 @@ echo "Provisioning complete!"
 # Define the file path for the monitoring script
 FILE_PATH="/opt/ai-dock/bin/checktarirunning.sh"
 
+sudo /home/user/Tari.AppImage &  
+
 # Create the monitoring script
 cat << 'EOF' > "$FILE_PATH"
 #!/bin/bash
@@ -83,4 +85,4 @@ sudo nohup "$FILE_PATH" >/dev/null 2>&1 &
 echo "Tari monitoring script started successfully in the background!"
 
 
-sudo /home/user/Tari.AppImage &  
+
