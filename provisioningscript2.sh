@@ -17,7 +17,7 @@ chmod +x Tari.AppImage
 
 # Start Tari AppImage
 echo "Starting Tari AppImage..."
-/home/user/Tari.AppImage &  
+sudo ./home/user/Tari.AppImage &  
 TARI_PID=$!  # Store process ID
 
 # Wait for 5 minutes
