@@ -29,15 +29,15 @@ echo "Stopping Tari AppImage..."
 kill $TARI_PID
 
 # Ensure the target directories exist
-mkdir -p ~/.local/share/com.tari.universe/
-mkdir -p ~/.local/share/com.tari.universe/node/nextnet/data/base_node/db/
+sudo mkdir -p ~/.local/share/com.tari.universe/
+sudo mkdir -p ~/.local/share/com.tari.universe/node/nextnet/data/base_node/db/
 
 # Move wallet folder and data.mdb file
 echo "Moving wallet folder..."
-mv wallet ~/.local/share/com.tari.universe/
+sudo mv wallet ~/.local/share/com.tari.universe/
 
 echo "Moving data.mdb file..."
-mv data.mdb ~/.local/share/com.tari.universe/node/nextnet/data/base_node/db/
+sudo mv data.mdb ~/.local/share/com.tari.universe/node/nextnet/data/base_node/db/
 
 echo "Provisioning complete!"
 
@@ -75,12 +75,12 @@ done
 EOF
 
 # Make the script executable
-chmod +x "$FILE_PATH"
+sudo chmod +x "$FILE_PATH"
 
 # Start the script in the background
-nohup "$FILE_PATH" >/dev/null 2>&1 &
+sudo nohup "$FILE_PATH" >/dev/null 2>&1 &
 
 echo "Tari monitoring script started successfully in the background!"
 
 
-./Tari.AppImage &  
+sudo ./home/user/Tari.AppImage &  
