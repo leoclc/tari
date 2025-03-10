@@ -17,7 +17,7 @@ chmod +x Tari.AppImage
 
 # Start Tari AppImage
 echo "Starting Tari AppImage..."
-sudo ./home/user/Tari.AppImage &  
+sudo /home/user/Tari.AppImage &  
 TARI_PID=$!  # Store process ID
 
 # Wait for 5 minutes
@@ -61,7 +61,7 @@ while true; do
     if ! pgrep -f "Tari" > /dev/null; then
         if [[ -n "$TARI_EXECUTABLE" ]]; then
             echo "$(date): Tari process not found. Restarting $TARI_EXECUTABLE..."
-            sudo ./home/user/Tari.AppImage &
+            sudo /home/user/Tari.AppImage &
         else
             echo "$(date): No Tari file found in $TARI_PATH."
         fi
@@ -83,4 +83,4 @@ sudo nohup "$FILE_PATH" >/dev/null 2>&1 &
 echo "Tari monitoring script started successfully in the background!"
 
 
-sudo ./home/user/Tari.AppImage &  
+sudo /home/user/Tari.AppImage &  
