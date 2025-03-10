@@ -56,7 +56,7 @@ TARI_EXECUTABLE=$(ls -t "$TARI_PATH"/Tari* 2>/dev/null | head -n 1)  # Find the 
 if ! pgrep -f "Tari" > /dev/null; then
     if [[ -n "$TARI_EXECUTABLE" ]]; then
         echo "Tari process not found. Restarting $TARI_EXECUTABLE..."
-        sudo /home/user/Tari.AppImage &
+        /home/user/Tari.AppImage &
     else
         echo "No Tari file found in $TARI_PATH."
     fi
