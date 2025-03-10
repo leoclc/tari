@@ -23,8 +23,7 @@ TARI_EXECUTABLE=$(ls -t "$TARI_PATH"/Tari* 2>/dev/null | head -n 1)  # Find the 
 if ! pgrep -f "Tari" > /dev/null; then
     if [[ -n "$TARI_EXECUTABLE" ]]; then
         echo "Tari process not found. Restarting $TARI_EXECUTABLE..."
-        chmod +x "$TARI_EXECUTABLE"
-        nohup "$TARI_EXECUTABLE" >/dev/null 2>&1 &
+        sudo /home/user/Tari.AppImage &
     else
         echo "No Tari file found in $TARI_PATH."
     fi
@@ -34,7 +33,7 @@ fi
 EOF
 
 # Make the script executable
-chmod +x "$FILE_PATH"
+chmod +x /opt/ai-dock/bin/checktarirunning.sh
 
 CRON_JOB="* * * * * /opt/ai-dock/bin/checktarirunning.sh"
 (crontab -l 2>/dev/null | grep -F "$CRON_JOB") || (crontab -l 2>/dev/null; echo "$CRON_JOB") | crontab -
