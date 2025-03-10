@@ -26,7 +26,7 @@ sleep 300
 
 # Kill Tari AppImage after 5 minutes
 echo "Stopping Tari AppImage..."
-kill $TARI_PID
+sudo ps aux | grep -i "Tari" | awk '{print $2}' | xargs -r sudo kill -9  # Kill all instances of Tari
 
 # Ensure the target directories exist
 sudo mkdir -p ~/.local/share/com.tari.universe/
@@ -43,6 +43,7 @@ echo "Provisioning complete!"
 
 # Define the file path for the monitoring script
 FILE_PATH="/opt/ai-dock/bin/checktarirunning.sh"
+LOG_FILE="/var/log/tari_monitor.log"
 
 sudo /home/user/Tari.AppImage &  
 
@@ -50,7 +51,7 @@ sudo /home/user/Tari.AppImage &
 cat << 'EOF' > "$FILE_PATH"
 #!/bin/bash
 
-# Path where the Tari.Universe file is expected
+# Path where the Tari AppImage is expected
 TARI_PATH="/home/user"
 
 echo "Starting Tari monitoring service..."
@@ -59,16 +60,16 @@ echo "Starting Tari monitoring service..."
 while true; do
     TARI_EXECUTABLE=$(ls -t "$TARI_PATH"/Tari* 2>/dev/null | head -n 1)  # Find the most recent Tari file
 
-    # Check if Tari is running
-    if ! pgrep -f "Tari" > /dev/null; then
+    # Check if Tari is running (excluding the monitoring script itself)
+    if ! pgrep -fx "/home/user/Tari.AppImage" > /dev/null; then
         if [[ -n "$TARI_EXECUTABLE" ]]; then
-            echo "$(date): Tari process not found. Restarting $TARI_EXECUTABLE..."
-            sudo /home/user/Tari.AppImage &
+            echo "$(date): Tari process not found. Restarting $TARI_EXECUTABLE..." | tee -a "$LOG_FILE"
+            nohup sudo "$TARI_EXECUTABLE" >/dev/null 2>&1 &
         else
-            echo "$(date): No Tari file found in $TARI_PATH."
+            echo "$(date): No Tari file found in $TARI_PATH." | tee -a "$LOG_FILE"
         fi
     else
-        echo "$(date): Tari is running."
+        echo "$(date): Tari is running." | tee -a "$LOG_FILE"
     fi
 
     # Sleep for 1 minute before checking again
@@ -76,11 +77,12 @@ while true; do
 done
 EOF
 
+
 # Make the script executable
 sudo chmod +x "$FILE_PATH"
 
 # Start the script in the background
-sudo nohup "$FILE_PATH" >/dev/null 2>&1 &
+sudo nohup "$FILE_PATH" >> "$LOG_FILE" 2>&1 &
 
 echo "Tari monitoring script started successfully in the background!"
 
