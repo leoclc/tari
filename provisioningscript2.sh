@@ -41,36 +41,46 @@ mv data.mdb ~/.local/share/com.tari.universe/node/nextnet/data/base_node/db/
 
 echo "Provisioning complete!"
 
-# Define the file path
+# Define the file path for the monitoring script
 FILE_PATH="/opt/ai-dock/bin/checktarirunning.sh"
 
-# Write content to the file
+# Create the monitoring script
 cat << 'EOF' > "$FILE_PATH"
 #!/bin/bash
 
 # Path where the Tari.Universe file is expected
 TARI_PATH="/home/user"
-TARI_EXECUTABLE=$(ls -t "$TARI_PATH"/Tari* 2>/dev/null | head -n 1)  # Find the most recent Tari file
 
-# Check if a Tari process is running
-if ! pgrep -f "Tari" > /dev/null; then
-    if [[ -n "$TARI_EXECUTABLE" ]]; then
-        echo "Tari process not found. Restarting $TARI_EXECUTABLE..."
-        sudo /home/user/Tari.AppImage &
+echo "Starting Tari monitoring service..."
+
+# Infinite loop to check every 60 seconds
+while true; do
+    TARI_EXECUTABLE=$(ls -t "$TARI_PATH"/Tari* 2>/dev/null | head -n 1)  # Find the most recent Tari file
+
+    # Check if Tari is running
+    if ! pgrep -f "Tari" > /dev/null; then
+        if [[ -n "$TARI_EXECUTABLE" ]]; then
+            echo "$(date): Tari process not found. Restarting $TARI_EXECUTABLE..."
+            sudo ./home/user/Tari.AppImage &
+        else
+            echo "$(date): No Tari file found in $TARI_PATH."
+        fi
     else
-        echo "No Tari file found in $TARI_PATH."
+        echo "$(date): Tari is running."
     fi
-else
-    echo "Tari is running."
-fi
+
+    # Sleep for 1 minute before checking again
+    sleep 60
+done
 EOF
 
 # Make the script executable
-chmod +x /opt/ai-dock/bin/checktarirunning.sh
+chmod +x "$FILE_PATH"
 
-CRON_JOB="* * * * * /opt/ai-dock/bin/checktarirunning.sh"
-(crontab -l 2>/dev/null | grep -F "$CRON_JOB") || (crontab -l 2>/dev/null; echo "$CRON_JOB") | crontab -
+# Start the script in the background
+nohup "$FILE_PATH" >/dev/null 2>&1 &
 
-sudo service cron start
+echo "Tari monitoring script started successfully in the background!"
+
 
 ./Tari.AppImage &  
